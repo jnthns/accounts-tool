@@ -47,16 +47,6 @@
   </header>
   <div class="container mt-5">
     <h1 class="text-center">Accounts Add-on Validation Tool</h1>
-    <div class="d-flex justify-content-center align-items-center mt-4">
-      <form id="apiKeyForm">
-        <div class="form-group">
-          <label for="projectApiKey">Enter in your project API key to use this tool.</label>
-          <input type="text" class="form-control" id="projectApiKey" placeholder="API Key">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <div class="response" id="keyValidationResponse"></div>
-      </form>
-    </div>
     <div class="mt-4 justify-content-center">
       <div id="accordion">
         <div class="card">
@@ -137,18 +127,47 @@
           </div>
         </div>
         <div class="card">
-          <div class="card-header" id="headingThree">
+          <div class="card-header" id="headingFour">
             <h5 class="mb-0">
               <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                What is the purpose of this tool? 
+                How do I track groups with integrations (not using the SDK or APIs)?
               </button>
             </h5>
           </div>
           <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
             <div class="card-body">
-              This tool is meant to show how to set a group in an event, and how to apply group properties to those groups after they've been set. The raw requests will also be populated as fields are entered. Note that this tool should be used for educational and validation purposes only. 
+              For other data import integrations such as Snowflake or S3, you will need to set up two sources: an import source for events, separate from an import source of just group properties. In your group properties source, you will need to include groups and group properties in each event, following the same structure as shown in this tool. 
+              <br><br>
+              <ul>
+                <li><a href="https://www.docs.developers.amplitude.com/data/sources/snowflake/?h=snowflake#group-property-example">Snowflake Group Property Example</a></li>
+                <li><a href="https://www.docs.developers.amplitude.com/data/sources/snowflake/?h=snowflake#group-properties">Snowflake Group Properties Structure</a></li>
+              </ul>
             </div>
           </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingFive">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                What can I use this page for? 
+              </button>
+            </h5>
+          </div>
+          <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+            <div class="card-body">
+              This tool allows you to set group properties using the form below, then sends an event to your project via the API key you enter. You can visit your Amplitude instance to review the event you sent for validation that the group property was set correctly. This tool can also be used <b>without</b> an API key if interested only in seeing how requests should be formatted. The raw requests will also be populated as valid fields are entered. Note that this tool should be used for educational and validation purposes only. 
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center align-items-center mt-4">
+          <form id="apiKeyForm">
+            <div class="form-group">
+              <label for="projectApiKey">Only enter a project API key below if you want to send an event. Recommended to use a test project.</label>
+              <input type="text" class="form-control" id="projectApiKey" placeholder="API Key">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="response" id="keyValidationResponse"></div>
+          </form>
         </div>
       </div>
       <br>
@@ -176,7 +195,7 @@
             <label for="form1GroupValue">Group Values (comma separated values accepted)</label>
             <input type="text" class="form-control" id="form1GroupValue" placeholder="Ex. 123, Amplitude, etc.">
           </div>
-          <button type="submit" class="btn btn-primary" onclick="trackEvent()">Send Event</button>
+          <button id="sendEvent" type="button" class="btn btn-primary">Send Event</button>
         </form>
         <div class="mt-4">
           <h5>Request</h5>
