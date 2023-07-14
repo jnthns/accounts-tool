@@ -10,21 +10,20 @@ jsonDataTextarea.placeholder = escapedJsonStr;
 
 // other page elements 
 const responseBlock = document.getElementById('responseBlock');
-const API_KEY = "e2f1f1b2b966ce86112d899c315ebfb2"
+const apiKeyInput = document.getElementById('projectApiKey');
+
+// const API_KEY = "e2f1f1b2b966ce86112d899c315ebfb2"
 
 const apiKeyCheck = () => {
-	if (API_KEY) {
-		const httpAPIEndpoint = "https://api2.amplitude.com/2/httpapi"
-		const groupIdentifyEndpoint = "https://api2.amplitude.com/groupidentify?api_key=" + API_KEY
+	const httpAPIEndpoint = "https://api2.amplitude.com/2/httpapi"
+	const groupIdentifyEndpoint = "https://api2.amplitude.com/groupidentify?api_key=" + API_KEY
 
-		globalThis.httpAPIEndpoint = httpAPIEndpoint
-		globalThis.groupIdentifyEndpoint = groupIdentifyEndpoint
+	window.httpAPIEndpoint = httpAPIEndpoint
+	window.groupIdentifyEndpoint = groupIdentifyEndpoint
 
-		return [httpAPIEndpoint, groupIdentifyEndpoint]
+	responseBlock.textContent = "API Key entered!"
 
-	} else {
-		responseBlock.textContent = "No API Key entered"
-	}
+	return [httpAPIEndpoint, groupIdentifyEndpoint]
 }
 
 const postRequest = (url, data) => {
@@ -52,7 +51,9 @@ const sendEventButton = document.getElementById("sendEvent");
 const time = new Date()
 const unixTimestamp = time.getTime()
 
-const eventInfo = () => {
+// checks for API key, then collects form data into a JSON. The full request is printed on the page for the user to view
+// If all form data is entered in, the user can hit Send Event to send the event to Amplitude. 
+const sendEvent = () => {
 	apiKeyCheck();
 
 	const values = [eventName.value, groupType.value, groupValue.value];
@@ -64,40 +65,40 @@ const eventInfo = () => {
 		const groupNames = [groupValue.value];
 
 		const eventsDict = {
-			"device_id": "change-this-id",
+			"device_id": "accounts-tool",
 			"event_type": event,
 			"groups": {
 				[group]: groupNames,
 				},
+			"country": "United States",
 			"time": unixTimestamp
 		};
 
-		const eventsDictString = JSON.stringify(eventsDict);
-
 		eventCodeBlock.textContent = httpAPIEndpoint;
-		eventCodeBlock.textContent += "&events=[" + eventsDictString + "]"
+		eventCodeBlock.textContent += "&events=[" + JSON.stringify(eventsDict) + "]"
 
 		if (event && group && groupNames) {
 			sendEventButton.addEventListener("click", () => {
 
 				const requestBody = {
 					"api_key": API_KEY,
-					"events": [eventsDict]
+					"events": eventsDict
 				}
 
-				console.log(httpAPIEndpoint + JSON.stringify(requestBody))
-				// postRequest(httpAPIEndpoint, requestBody)
+				postRequest(httpAPIEndpoint, JSON.stringify(requestBody))
 			})
 		}
 		
-		return eventsDictString;
+		return eventsDict;
 	}
 }
 
-eventName.addEventListener('input', eventInfo);
-groupType.addEventListener('input', eventInfo);
-groupValue.addEventListener('blur', eventInfo);
+eventName.addEventListener('input', sendEvent);
+groupType.addEventListener('input', sendEvent);
+groupValue.addEventListener('blur', sendEvent);
 
+// when page loads, check for API key. When the user enters in group properties as JSON, the request is printed on the page for the user to view.
+// when the user hits Send Identify, the request is sent to Amplitude.
 document.addEventListener('DOMContentLoaded', () => {
 	apiKeyCheck();
 
