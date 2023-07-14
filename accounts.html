@@ -149,13 +149,19 @@
           <div class="card-header" id="headingFive">
             <h5 class="mb-0">
               <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                What can I use this page for? 
+                <b>How can I use this page?</b>
               </button>
             </h5>
           </div>
           <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
             <div class="card-body">
-              This tool allows you to set group properties using the form below, then sends an event to your project via the API key you enter. You can visit your Amplitude instance to review the event you sent for validation that the group property was set correctly. This tool can also be used <b>without</b> an API key if interested only in seeing how requests should be formatted. The raw requests will also be populated as valid fields are entered. Note that this tool should be used for educational and validation purposes only. 
+              This tool allows you to set group properties using the form below, then sends an event to your project via the API key you enter. You can visit your Amplitude instance to review the event you sent for validation that the group property was set correctly. This tool can also be used <b>without</b> an API key if interested only in seeing how requests should be formatted. The raw requests will also be populated as valid fields are entered. Note that this tool should be used for educational and validation purposes only.
+              <br><br>
+              <ol>
+                <li>First, set a group in the event. This is referred to as an event-level group, since the group is being set in the event.</li>
+                <li>Next, set group properties that you want to apply on the event.</li>
+                <li>Finally, send another event to see the group properties applied to the group in the Account Activity page.</li>
+              </ol>
             </div>
           </div>
         </div>
@@ -165,8 +171,6 @@
               <label for="projectApiKey">Only enter a project API key below if you want to send an event. Recommended to use a test project.</label>
               <input type="text" class="form-control" id="projectApiKey" placeholder="API Key">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <div class="response" id="keyValidationResponse"></div>
           </form>
         </div>
       </div>
@@ -179,7 +183,7 @@
     <div class="row">
       <div class="col-md-6">
         <form>
-          <h3>1) Set a Group in an Event</h3>
+          <h3>Set a Group in an Event</h3>
           <div>
             Enter in an event and the group you would like to send with the event.
           </div><br>
@@ -204,7 +208,7 @@
       </div>
       <div class="col-md-6">
         <form>
-          <h3>2) Set Group Properties</h3>
+          <h3>Set Group Properties</h3>
           <div class="form-group">
             <label for="dataInput">Group Properties JSON</label>
             <textarea class="form-control" id="dataInput" rows="5" placeholder=""></textarea>

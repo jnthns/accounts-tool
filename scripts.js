@@ -17,12 +17,13 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 const apiKeyCheck = () => {
-	apiKeyInput.addEventListener('blur', () => {
-		if (apiKeyInput.textContent.length == 32) {
-			const API_KEY = apiKeyInput.textContent
+	apiKeyInput.addEventListener('blur', (event) => {
+		if (event.target.value.length === 32) {
+			const API_KEY = event.target.value
 			const httpAPIEndpoint = "https://api2.amplitude.com/2/httpapi"
 			const groupIdentifyEndpoint = "https://api2.amplitude.com/groupidentify?api_key=" + API_KEY
 
+			window.API_KEY = API_KEY
 			window.httpAPIEndpoint = httpAPIEndpoint
 			window.groupIdentifyEndpoint = groupIdentifyEndpoint
 

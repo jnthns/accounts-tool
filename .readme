@@ -1,0 +1,7 @@
+Need to fix: 
+- API response text returns undefined
+- Group Identify request is fired instantly when JSON is parsed
+
+Need to add: 
+- Link to Accounts Activity page based off of API key
+- Explanations for other group-related questions 
