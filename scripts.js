@@ -1,29 +1,39 @@
-// placeholder text
-var jsonStr = {"org name": "Amplitude","account type": "Paid"}
-var escapedJsonStr = JSON.stringify(jsonStr)
-	.replace(/[\u007F-\uFFFF]/g, function(chr) {
-		return '\\u' + ('0000' + chr.charCodeAt(0).toString(16)).substr(-4);
-	});
+document.addEventListener('DOMContentLoaded', () => {
+	const responseBlock = document.getElementById('responseBlock');
+	const apiKeyInput = document.getElementById('projectApiKey');
 
-var jsonDataTextarea = document.getElementById('dataInput');
-jsonDataTextarea.placeholder = escapedJsonStr;
+	window.responseBlock = responseBlock
+	window.apiKeyInput = apiKeyInput
 
-// other page elements 
-const responseBlock = document.getElementById('responseBlock');
-const apiKeyInput = document.getElementById('projectApiKey');
+	// placeholder text
+	var jsonStr = {"org name": "Amplitude","account type": "Paid"}
+	var escapedJsonStr = JSON.stringify(jsonStr)
+		.replace(/[\u007F-\uFFFF]/g, function(chr) {
+			return '\\u' + ('0000' + chr.charCodeAt(0).toString(16)).substr(-4);
+		});
 
-// const API_KEY = "e2f1f1b2b966ce86112d899c315ebfb2"
+	var jsonDataTextarea = document.getElementById('dataInput');
+	jsonDataTextarea.placeholder = escapedJsonStr;
+})
 
 const apiKeyCheck = () => {
-	const httpAPIEndpoint = "https://api2.amplitude.com/2/httpapi"
-	const groupIdentifyEndpoint = "https://api2.amplitude.com/groupidentify?api_key=" + API_KEY
+	apiKeyInput.addEventListener('blur', () => {
+		if (apiKeyInput.textContent.length == 32) {
+			const API_KEY = apiKeyInput.textContent
+			const httpAPIEndpoint = "https://api2.amplitude.com/2/httpapi"
+			const groupIdentifyEndpoint = "https://api2.amplitude.com/groupidentify?api_key=" + API_KEY
 
-	window.httpAPIEndpoint = httpAPIEndpoint
-	window.groupIdentifyEndpoint = groupIdentifyEndpoint
+			window.httpAPIEndpoint = httpAPIEndpoint
+			window.groupIdentifyEndpoint = groupIdentifyEndpoint
 
-	responseBlock.textContent = "API Key entered!"
+			responseBlock.textContent = "API Key entered!"
 
-	return [httpAPIEndpoint, groupIdentifyEndpoint]
+			return [httpAPIEndpoint,groupIdentifyEndpoint]
+
+		} else {
+			responseBlock.textContent = "No API Key entered"
+		}
+	})
 }
 
 const postRequest = (url, data) => {
