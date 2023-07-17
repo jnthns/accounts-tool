@@ -28,6 +28,7 @@ const apiKeyCheck = () => {
 			window.groupIdentifyEndpoint = groupIdentifyEndpoint
 
 			responseBlock.textContent = "API Key entered!"
+			console.log("API key successfully entered")
 
 			return [httpAPIEndpoint,groupIdentifyEndpoint]
 
@@ -97,6 +98,7 @@ const sendEvent = () => {
 				}
 
 				postRequest(httpAPIEndpoint, JSON.stringify(requestBody))
+				console.log("Event sent successfully")
 			})
 		}
 		
@@ -134,6 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				postRequest(
 					groupIdentifyEndpoint, groupProperties
 				));
+				console.log("Group Identify request sent successfully")
 			}
 		} 
 	});
