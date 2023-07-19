@@ -46,6 +46,7 @@ const postRequest = (url, data) => {
 	})
 };
 
+const customDeviceId = document.getElementById('form1deviceId');
 const eventName = document.getElementById('form1Event');
 const groupType = document.getElementById('form1GroupType');
 const groupValue = document.getElementById('form1GroupValue');
@@ -67,18 +68,16 @@ const sendEvent = () => {
 
 	if (isFilledOut) {
 		const event = eventName.value;
-		const group = groupType.value;
+		const group = [groupType.value];
 		const groupNames = [groupValue.value];
 		const httpAPIEndpoint = "https://api2.amplitude.com/2/httpapi"
 
 		const eventsDict = {
-			"device_id": "accounts-validation-tool",
+			"device_id": customDeviceId.value || "accounts-validation-tool",
 			"event_type": event,
-
 			"groups": {
 				[group]: groupNames,
 				},
-			"country": "United States",
 			"time": unixTimestamp
 		};
 
@@ -89,7 +88,7 @@ const sendEvent = () => {
 			sendEventButton.addEventListener("click", () => {
 
 				const requestBody = {
-					"api_key": API_KEY,
+					"api_key": window.API_KEY || '<api_key>',
 					"events": eventsDict
 				}
 
@@ -121,7 +120,7 @@ const groupPropsInput = () => {
 			
 			propsCodeBlock.textContent = groupIdentifyEndpoint + groupProperties
 	
-			if (propsCodeBlock.textContent) {
+			if (propsCodeBlock.textContent && window.API_KEY) {
 				sendGroupPropsButton.addEventListener("click", () => console.log(groupIdentifyEndpoint + groupProperties), 
 					postRequest(groupIdentifyEndpoint, groupProperties)
 				);
