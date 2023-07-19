@@ -8,10 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	apiKeyInput.addEventListener('input', (event) => {
 		if (event.target.value.length === 32) {
 			const API_KEY = event.target.value
-			const groupIdentifyEndpoint = "https://api2.amplitude.com/groupidentify?api_key=" + API_KEY
-
 			window.API_KEY = API_KEY
-			window.groupIdentifyEndpoint = groupIdentifyEndpoint
 
 			responseBlock.textContent = "API Key entered!"
 			console.log("API key successfully entered")
@@ -33,20 +30,20 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 const postRequest = (url, data) => {
-  const response = fetch(url, {
+  fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: data,
-  });
-
-  if (response.status === 200) {
-		responseBlock.innerHTML = response.blob()
-    return response.text;
-  } else {
-		responseBlock.innerHTML = response.statusText
-  }
+  })
+	.then((response) => {
+		if (response.status === 200) {
+			responseBlock.textContent = "Event sent successfully. Check User Look-up Page"
+		} else {
+			responseBlock.textContent = "Invalid event params"
+		}
+	})
 };
 
 const eventName = document.getElementById('form1Event');
@@ -54,7 +51,9 @@ const groupType = document.getElementById('form1GroupType');
 const groupValue = document.getElementById('form1GroupValue');
 const eventCodeBlock = document.getElementById('eventCodeBlock');
 const sendEventButton = document.getElementById("sendEvent");
+
 const userDataTextarea = document.getElementById('dataInput');
+const sendGroupPropsButton = document.getElementById("sendGroupProps");
 const propsCodeBlock = document.getElementById('propsCodeBlock');
 
 const time = new Date()
@@ -75,6 +74,7 @@ const sendEvent = () => {
 		const eventsDict = {
 			"device_id": "accounts-validation-tool",
 			"event_type": event,
+
 			"groups": {
 				[group]: groupNames,
 				},
@@ -108,30 +108,35 @@ groupValue.addEventListener('blur', sendEvent);
 
 // when page loads, check for API key. When the user enters in group properties as JSON, the request is printed on the page for the user to view.
 // when the user hits Send Identify, the request is sent to Amplitude.
-const groupPropsInput = (event) => {
-	let userData = event.target.value;
+const groupPropsInput = () => {
 	const groupsInfo = {"group_type": groupType.value, "group_value": groupValue.value}
+	const API_KEY = window.API_KEY || "<api_key>"
+	const groupIdentifyEndpoint = "https://api2.amplitude.com/groupidentify?api_key=" + API_KEY
 
-	if (JSON.parse(userData) && JSON.stringify(groupsInfo) && groupType.value.length != 0 && groupValue.value.length != 0) {
-		userData = JSON.parse(userData)
-		const groupsInfoString = JSON.stringify(groupsInfo)
-		const groupProperties = "&identification=" + '{"group_properties":' + JSON.stringify(userData) + ',' + groupsInfoString.substring(1, groupsInfoString.length)
-		
-		propsCodeBlock.textContent = groupIdentifyEndpoint + groupProperties
+	try {
+		let inputJSON = JSON.parse(userDataTextarea.value)
+		if (inputJSON && JSON.stringify(groupsInfo) && groupType.value.length != 0 && groupValue.value.length != 0) {
+			const groupsInfoString = JSON.stringify(groupsInfo)
+			const groupProperties = "&identification=" + '{"group_properties":' + JSON.stringify(inputJSON) + ',' + groupsInfoString.substring(1, groupsInfoString.length)
+			
+			propsCodeBlock.textContent = groupIdentifyEndpoint + groupProperties
+	
+			if (propsCodeBlock.textContent) {
+				sendGroupPropsButton.addEventListener("click", () => console.log(groupIdentifyEndpoint + groupProperties), 
+					postRequest(groupIdentifyEndpoint, groupProperties)
+				);
+				console.log("Group Identify request sent successfully")
+			}
 
-		if (propsCodeBlock.textContent) {
-			const sendGroupIdentify = document.getElementById("group-properties")
-
-			sendGroupIdentify.addEventListener("click", () => console.log(groupIdentifyEndpoint + groupProperties), 
-			postRequest(
-				groupIdentifyEndpoint, groupProperties
-			));
-			console.log("Group Identify request sent successfully")
+		} else {
+			responseBlock.textContent = "Enter a Group type and Group value(s) on the left to populate the Identify request."
+			console.error("Required fields are invalid or missing")
 		}
-	} else {
-		responseBlock.textContent = "Enter a Group type and Group value(s) on the left to populate the Identify request."
-		console.error("Required fields are invalid or missing")
+
+	} catch (error) {
+		console.log("Not a valid JSON string")
 	}
 };
 
-userDataTextarea.addEventListener('blur', groupPropsInput)
+userDataTextarea.addEventListener("input", groupPropsInput)
+sendGroupPropsButton.addEventListener("click", groupPropsInput)
