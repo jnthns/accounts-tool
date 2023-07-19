@@ -46,7 +46,7 @@
     </div>
   </header>
   <div class="container mt-5">
-    <h1 class="text-center">Accounts Add-on Validation Tool</h1>
+    <h1 class="text-center">Amplitude Accounts/Groups Add-on</h1>
     <div class="mt-4 justify-content-center">
       <div id="accordion">
         <div class="card">
@@ -122,6 +122,7 @@
                 <li>Because group properties are applied to the group and not the user, only properties that apply to the entire group should be set.</li>
                 <li>Group properties can <b>only</b> be applied via Group Identify API. You cannot include group properties in an event payload. This is true for all event ingestion methods into Amplitude.</li>
                 <li>Unlike the regular Identify API, group properties don't need to be set on specific user IDs or device IDs. Instead, only the group type and value need to be specified in the Group Identify request.</li>
+                <li>There is a limit of 5 group types per project, so you should only use this tool to send groups to a test project.</li>
               </ul> 
             </div>
           </div>
@@ -158,25 +159,45 @@
               This tool allows you to set group properties using the form below, then sends an event to your project via the API key you enter. You can visit your Amplitude instance to review the event you sent for validation that the group property was set correctly. This tool can also be used <b>without</b> an API key if interested only in seeing how requests should be formatted. The raw requests will also be populated as valid fields are entered. Note that this tool should be used for educational and validation purposes only.
               <br><br>
               <ol>
-                <li>First, set a group in the event. This is referred to as an event-level group, since the group is being set in the event.</li>
-                <li>Next, set group properties that you want to apply on the event.</li>
+                <li>First, set a group in the event. This is referred to as an <a href="https://www.docs.developers.amplitude.com/guides/accounts-instrumentation-guide/#define-event-level-or-user-level-groups">event-level</a> group, since the group is being set in the event.</li>
+                <li>Next, set group properties that you want to apply on the event. <b>Note that you must add a group type and value on the left first before adding group properties.</b></li>
                 <li>Finally, send another event to see the group properties applied to the group in the Account Activity page.</li>
               </ol>
             </div>
           </div>
         </div>
+        <div class="card">
+          <div class="card-header" id="headingSix">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                What doesn't this tool cover?
+              </button>
+            </h5>
+          </div>
+          <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
+            <div class="card-body">
+              <ol>
+                <li>This tool only demonstrates setting group properties on an <b><a href="https://www.docs.developers.amplitude.com/guides/accounts-instrumentation-guide/#define-event-level-or-user-level-groups">event-level</a></b> group.</li>
+                <li>This tool only covers setting a single group in an event. In practice, you can set multiple groups and group properties for each group in a single event.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="d-flex justify-content-center align-items-center mt-4">
+          <h3>Groups Validation Tool</h3>
+        </div>
         <div class="d-flex justify-content-center align-items-center mt-4">
           <form id="apiKeyForm">
             <div class="form-group">
-              <label for="projectApiKey">Only enter a project API key below if you want to send an event. Recommended to use a test project.</label>
+              <label for="projectApiKey">Use a <b>test project's API key</b> below if you want to send events.</label>
               <input type="text" class="form-control" id="projectApiKey" placeholder="API Key">
             </div>
           </form>
         </div>
       </div>
-      <br>
     <div class="mt-4 justify-content-center">
-      <h5>Response</h5>
+      <h5>Logger</h5>
       <pre><code id="responseBlock" class="bg-light p-3 word-wrap"></code></pre>
     </div>
     <br>
@@ -185,7 +206,7 @@
         <form>
           <h3>Set a Group in an Event</h3>
           <div>
-            Enter in an event and the group you would like to send with the event.
+            Send any event with a group type and any group values, which can be comma-separated.
           </div><br>
           <div class="form-group">
             <label for="form1Event">Event Type</label>
@@ -196,7 +217,7 @@
             <input type="text" class="form-control" id="form1GroupType" placeholder="Ex. org ID, company, etc.">
           </div>
           <div class="form-group">
-            <label for="form1GroupValue">Group Values (comma separated values accepted)</label>
+            <label for="form1GroupValue">Group Values</label>
             <input type="text" class="form-control" id="form1GroupValue" placeholder="Ex. 123, Amplitude, etc.">
           </div>
           <button id="sendEvent" type="button" class="btn btn-primary">Send Event</button>
@@ -210,18 +231,19 @@
         <form>
           <h3>Set Group Properties</h3>
           <div class="form-group">
-            <label for="dataInput">Group Properties JSON</label>
+            <label for="dataInput">Enter in a JSON of group properties you would like to set on the group.</label>
             <textarea class="form-control" id="dataInput" rows="5" placeholder=""></textarea>
           </div>
-          <button id="group-properties" type="button" class="btn btn-primary">Send Identify</button>
+          <button id="sendGroupProps" type="button" class="btn btn-primary">Send Group Identify</button>
         </form>
         <div class="mt-4">
           <h5>Request</h5>
-          <pre><code id="propsCodeBlock" class="bg-light p-3 word-wrap">Populates with valid JSON</code></pre>
+          <pre><code id="propsCodeBlock" class="bg-light p-3 word-wrap">Populates with valid JSON input</code></pre>
         </div>
       </div>
     </div>
   </div>
+  <br>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
