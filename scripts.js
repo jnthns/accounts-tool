@@ -139,5 +139,4 @@ const groupPropsInput = () => {
 	}
 };
 
-userDataTextarea.addEventListener("input", groupPropsInput)
-// sendGroupPropsButton.addEventListener("click", groupPropsInput)
+userDataTextarea.addEventListener("input", groupPropsInput) 

@@ -62,6 +62,13 @@
               An <a href="https://help.amplitude.com/hc/en-us/articles/115001765532">account</a>, or group, is an object that a set of users might belong to — such as a company of customers, a team of users, or a playlist with listeners. This will help you understand how specific accounts interact with your product, instead of seeing just individual user activity.
               <br><br>
               For example, you might want to track how users in Organization A, Organization B, and Organization C interact differently with your product. In that case, you could track an overall Group named Organization, where A, B, and C are individual subgroups. In this example, Organization would be referred to as the group type, and A/B/C would be referred to as group values. 
+              <br><br>
+              Sorting users into groups can function a lot like cohorts, but there are some differences.
+              <ul>
+                <li>You can analyze any existing or new charts by Groups instead of Users with a click, allowing you to visualize different behavior in any chart type that supports groups.</li>
+                <li>You can set properties on groups, so that any user in a group can also be filtered by group properties.</li>
+                <li>You can group by Groups in some chart types, similar to grouping users by a common factor.</li>
+              </ul>
             </div>
           </div>
         </div>
@@ -137,11 +144,19 @@
           </div>
           <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
             <div class="card-body">
-              For other data import integrations such as Snowflake or S3, you will need to set up two sources: an import source for events, separate from an import source of just group properties. In your group properties source, you will need to include groups and group properties in each event, following the same structure as shown in this tool. 
+              <h5>Amplitude Integrations</h5>
+              For data import integrations such as <a href="https://www.docs.developers.amplitude.com/data/sources/snowflake/?h=snowflake+import">Snowflake</a> or <a href="https://www.docs.developers.amplitude.com/data/sources/amazon-s3/?h=import">S3</a>, you will need to set up two sources: an import source for events, and another source for group properties. In your group properties source, you will need to include groups and group properties in each event, following the same structure as shown in this tool. 
               <br><br>
               <ul>
                 <li><a href="https://www.docs.developers.amplitude.com/data/sources/snowflake/?h=snowflake#group-property-example">Snowflake Group Property Example</a></li>
                 <li><a href="https://www.docs.developers.amplitude.com/data/sources/snowflake/?h=snowflake#group-properties">Snowflake Group Properties Structure</a></li>
+              </ul>
+              <a href="https://www.docs.developers.amplitude.com/data/sources/salesforce-group/?h=salesforce#overview">Salesforce</a> is another integration supported by Amplitude that allows mapping objects to groups in Amplitude. Columns in the Salesforce object table can be mapped to groups and group properties in Amplitude. It does <b>not</b> include support for sending events from Salesforce. 
+              <br><br>
+              <h5>3rd Party Integrations</h5>
+              <ul>
+                <li><a href="https://segment.com/docs/connections/destinations/catalog/actions-amplitude/#group-identify-user">Segment Groups</a></li>
+                <li><a href="https://www.rudderstack.com/docs/destinations/streaming-destinations/amplitude/#group">Rudderstack Groups</a></li>
               </ul>
             </div>
           </div>
@@ -176,10 +191,10 @@
           </div>
           <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion">
             <div class="card-body">
-              <ol>
+              <ul>
                 <li>This tool only demonstrates setting group properties on an <b><a href="https://www.docs.developers.amplitude.com/guides/accounts-instrumentation-guide/#define-event-level-or-user-level-groups">event-level</a></b> group.</li>
                 <li>This tool only covers setting a single group in an event. In practice, you can set multiple groups and group properties for each group in a single event.</li>
-              </ol>
+              </ul>
             </div>
           </div>
         </div>
@@ -210,7 +225,7 @@
           </div><br>
           <div class="form-group">
             <label for="form1deviceId">Custom Device ID (optional)</label>
-            <input type="text" class="form-control" id="form1deviceId" placeholder="Defaults to accounts-validation-tool">
+            <input type="text" class="form-control" id="form1deviceId" placeholder='Defaults to "accounts-validation-tool"'>
           </div>
           <div class="form-group">
             <label for="form1Event">Event Type</label>
