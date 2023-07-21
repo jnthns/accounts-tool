@@ -19,14 +19,14 @@ document.addEventListener('DOMContentLoaded', () => {
 	})
 	
 	// placeholder text
-	var jsonStr = {"org name": "Amplitude","account type": "Paid"}
-	var escapedJsonStr = JSON.stringify(jsonStr)
+	const placeholderStr = {"org name": "Amplitude","account type": "Paid"}
+	const escapedStr = JSON.stringify(placeholderStr)
 		.replace(/[\u007F-\uFFFF]/g, function(chr) {
 			return '\\u' + ('0000' + chr.charCodeAt(0).toString(16)).substr(-4);
 		});
 
-	var jsonDataTextarea = document.getElementById('dataInput');
-	jsonDataTextarea.placeholder = escapedJsonStr;
+	const dataInputArea = document.getElementById('dataInput');
+	dataInputArea.placeholder = escapedStr;
 })
 
 const postRequest = (url, data) => {
@@ -39,13 +39,14 @@ const postRequest = (url, data) => {
   })
 	.then((response) => {
 		if (response.status === 200) {
-			responseBlock.textContent = "Event sent successfully. Check User Look-up Page"
+			responseBlock.textContent = "Event sent successfully. Check User Look-up Page!"
 		} else {
-			responseBlock.textContent = "Invalid event params"
+			responseBlock.textContent = "Invalid params."
 		}
 	})
 };
 
+const customDeviceId = document.getElementById('form1deviceId');
 const eventName = document.getElementById('form1Event');
 const groupType = document.getElementById('form1GroupType');
 const groupValue = document.getElementById('form1GroupValue');
@@ -67,18 +68,16 @@ const sendEvent = () => {
 
 	if (isFilledOut) {
 		const event = eventName.value;
-		const group = groupType.value;
+		const group = [groupType.value];
 		const groupNames = [groupValue.value];
 		const httpAPIEndpoint = "https://api2.amplitude.com/2/httpapi"
 
 		const eventsDict = {
-			"device_id": "accounts-validation-tool",
+			"device_id": customDeviceId.value || "accounts-validation-tool",
 			"event_type": event,
-
 			"groups": {
 				[group]: groupNames,
 				},
-			"country": "United States",
 			"time": unixTimestamp
 		};
 
@@ -89,7 +88,7 @@ const sendEvent = () => {
 			sendEventButton.addEventListener("click", () => {
 
 				const requestBody = {
-					"api_key": API_KEY,
+					"api_key": window.API_KEY || '<api_key>',
 					"events": eventsDict
 				}
 
@@ -115,17 +114,19 @@ const groupPropsInput = () => {
 
 	try {
 		let inputJSON = JSON.parse(userDataTextarea.value)
+
 		if (inputJSON && JSON.stringify(groupsInfo) && groupType.value.length != 0 && groupValue.value.length != 0) {
 			const groupsInfoString = JSON.stringify(groupsInfo)
 			const groupProperties = "&identification=" + '{"group_properties":' + JSON.stringify(inputJSON) + ',' + groupsInfoString.substring(1, groupsInfoString.length)
 			
 			propsCodeBlock.textContent = groupIdentifyEndpoint + groupProperties
 	
-			if (propsCodeBlock.textContent) {
-				sendGroupPropsButton.addEventListener("click", () => console.log(groupIdentifyEndpoint + groupProperties), 
-					postRequest(groupIdentifyEndpoint, groupProperties)
+			if (propsCodeBlock.textContent && window.API_KEY) {
+				sendGroupPropsButton.addEventListener("click", () => {
+					postRequest(groupIdentifyEndpoint, groupProperties),
+					console.log("Group Identify request sent successfully")
+					}
 				);
-				console.log("Group Identify request sent successfully")
 			}
 
 		} else {
@@ -139,4 +140,4 @@ const groupPropsInput = () => {
 };
 
 userDataTextarea.addEventListener("input", groupPropsInput)
-sendGroupPropsButton.addEventListener("click", groupPropsInput)
+// sendGroupPropsButton.addEventListener("click", groupPropsInput)

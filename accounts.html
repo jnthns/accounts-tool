@@ -206,8 +206,12 @@
         <form>
           <h3>Set a Group in an Event</h3>
           <div>
-            Send any event with a group type and any group values, which can be comma-separated.
+            Enter in values to fill out the HTTP request. Comma separated values are accepted for Group types and values.  
           </div><br>
+          <div class="form-group">
+            <label for="form1deviceId">Custom Device ID (optional)</label>
+            <input type="text" class="form-control" id="form1deviceId" placeholder="Defaults to accounts-validation-tool">
+          </div>
           <div class="form-group">
             <label for="form1Event">Event Type</label>
             <input type="text" class="form-control" id="form1Event" placeholder="Ex. Test Group Event">
