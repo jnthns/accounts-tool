@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Accounts</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="icon" href="favicon.ico">
   <style>
     .response-block {
       background-color: #f8f9fa;
@@ -82,19 +83,15 @@
           </div>
           <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
             <div class="card-body">
-              Groups can be planned in Data, but they will need to be sent in through SDKs or APIs. 
+              Events are recorded at the user level and associated to groups once a user has joined a group. A user joins a group when the group is set through events or an Identify API request. Once the group is set on the user, any group properties sent in via Group Identify API will be applied to the group (and subsequently the user) and become filterable in charts.                
               <br><br>
-              Groups in Amplitude can be defined at either the <b>event level</b> or the <b>user level</b>. <a href="https://www.docs.developers.amplitude.com/guides/accounts-instrumentation-guide/?h=plan+accounts">What's the difference?</a>
-              <br><br>
+              <b>Notes</b>
               <ul>
-                <li>An event-level group is one that only incorporates specific events in the users' overall journey. Users are assigned to a group at the time the event is sent, and users do not remain in that group unless you explicitly assign them to it when the event is sent. A good example use-case might be a multi-product company that only wants users' events associated with a particular group when those events are related to a specific product.</li>
-                <br>
-                <li>By contrast, membership in a user-level group is independent of the events being triggered. This is useful when you want to attribute all events triggered by a user to a particular group. Users are assigned to the group once, and they remain in it for all future events. A good example use-case might be one where all users working for a specific company are associated with a user-level group.</li>
+                <li>Groups and group properties can be planned in Data, but they will need to be sent in through SDKs or APIs.</li>
+                <li>Groups can be defined at either the <a href="https://www.docs.developers.amplitude.com/guides/accounts-instrumentation-guide/?h=plan+accounts">event level or the user level</a>.</li>
               </ul>
-              NOTE: A user's group type cannot be un-set, and must instead be overwritten.
-              <br><br>
               <b>Methods of sending Groups</b>
-              <br><br>
+              <br>
               SDKs
               <ul>
                 <li><a href="https://www.docs.developers.amplitude.com/data/sdks/android-kotlin/#user-groups">Android SDK</a></li>
@@ -105,8 +102,12 @@
               <ul>
                 <li><a href="https://www.docs.developers.amplitude.com/analytics/apis/http-v2-api/#upload-request-body-parameters">HTTP API</a></li>
               </ul>
-              Segment
+              Integrations
               <ul>
+                <li><a href="https://www.docs.developers.amplitude.com/data/sources/amazon-s3/?h=s3">S3 Import</a></li>
+                <li><a href="https://www.docs.developers.amplitude.com/data/sources/snowflake/?h=snowflake+import">Snowflake Import</a></li>
+                <li><a href="https://www.docs.developers.amplitude.com/data/sources/bigquery/">BigQuery Import</a></li>
+                <li><a href="https://www.rudderstack.com/docs/event-spec/standard-events/group/">Rudderstack</a></li>
                 <li><a href="https://help.amplitude.com/hc/en-us/articles/5332668738331-Set-up-account-level-reporting#segment">Segment</a></li>
               </ul>
             </div>
@@ -124,6 +125,7 @@
             <div class="card-body">
               Groups can have properties applied to them, similar to how users have user properties, and events have event properties. The difference for groups is that group properties will apply to the entire group, instead of just the individual user. Whenever a group property is set on a group, all users in that group will simultaneously receive the property, making it easy to query for group activity in Amplitude. 
               <br><br>
+              <b>Examples</b>
               <b>Restrictions</b>
               <ul>
                 <li>Because group properties are applied to the group and not the user, only properties that apply to the entire group should be set.</li>
@@ -138,23 +140,30 @@
           <div class="card-header" id="headingFour">
             <h5 class="mb-0">
               <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                How do I track groups with integrations (not using the SDK or APIs)?
+                How do I track groups with different data sources/integrations?
               </button>
             </h5>
           </div>
           <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
             <div class="card-body">
               <h5>Amplitude Integrations</h5>
-              For data import integrations such as <a href="https://www.docs.developers.amplitude.com/data/sources/snowflake/?h=snowflake+import">Snowflake</a> or <a href="https://www.docs.developers.amplitude.com/data/sources/amazon-s3/?h=import">S3</a>, you will need to set up two sources: an import source for events, and another source for group properties. In your group properties source, you will need to include groups and group properties in each event, following the same structure as shown in this tool. 
+              For data import integrations such as <a href="https://www.docs.developers.amplitude.com/data/sources/snowflake/?h=snowflake+import">Snowflake</a>, <a href="https://www.docs.developers.amplitude.com/data/sources/bigquery/">BigQuery</a> or <a href="https://www.docs.developers.amplitude.com/data/sources/amazon-s3/?h=import">S3</a>, you will need to set up an import source for Group Properties, which will apply to the groups you set via events or user properties.  
               <br><br>
+              <b>Event Level Groups</b><br>
+              Assuming you already have a source for events, create another one for Group Properties. You can <a href="https://www.docs.developers.amplitude.com/analytics/apis/http-v2-api/#upload-request-body-parameters">include groups in your events</a>, then track a dict that contains the group type mapped to the group value the user should belong to. When the events are ingested, the Group Properties source will apply the group properties to the events that the user performs if the user is in the group. 
+              <br><br>
+              <b>User Level Groups</b><br>
+              Create a source for User Properties and another one for Group Properties. If you don't know what group the user is associated with from the start, you can apply the group as a user property once the user has joined the group. The group association then persists with the user forever on all events, until the group is <a href="https://www.docs.developers.amplitude.com/analytics/apis/identify-api/#user_properties-supported-operations">explicitly updated or removed via Identify API</a>. Once the User Property import is run, the group will be applied to the user, then any group properties uploaded via the other source will apply to those users' groups once events are tracked. 
+              <br><br>
+              <b>Docs</b>
               <ul>
                 <li><a href="https://www.docs.developers.amplitude.com/data/sources/snowflake/?h=snowflake#group-property-example">Snowflake Group Property Example</a></li>
                 <li><a href="https://www.docs.developers.amplitude.com/data/sources/snowflake/?h=snowflake#group-properties">Snowflake Group Properties Structure</a></li>
-              </ul>
-              <a href="https://www.docs.developers.amplitude.com/data/sources/salesforce-group/?h=salesforce#overview">Salesforce</a> is another integration supported by Amplitude that allows mapping objects to groups in Amplitude. Columns in the Salesforce object table can be mapped to groups and group properties in Amplitude. It does <b>not</b> include support for sending events from Salesforce. 
-              <br><br>
-              <h5>3rd Party Integrations</h5>
+                <li><a href="https://www.docs.developers.amplitude.com/data/sources/bigquery/#group-properties">BigQuery Group Property Example</a></li>
+              </ul> 
+              <b>3rd Party Integrations</b>
               <ul>
+                <li><a href="https://www.docs.developers.amplitude.com/data/sources/salesforce-group/?h=salesforce#overview">Salesforce</a> - allows mapping objects to groups in Amplitude. Columns in the Salesforce object table can be mapped to groups and group properties in Amplitude on a go-forward basis. It does <b>not</b> include support for sending events from Salesforce.</li>
                 <li><a href="https://segment.com/docs/connections/destinations/catalog/actions-amplitude/#group-identify-user">Segment Groups</a></li>
                 <li><a href="https://www.rudderstack.com/docs/destinations/streaming-destinations/amplitude/#group">Rudderstack Groups</a></li>
               </ul>
@@ -165,13 +174,13 @@
           <div class="card-header" id="headingFive">
             <h5 class="mb-0">
               <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                <b>How can I use this page?</b>
+                <b>How can I use this tool?</b>
               </button>
             </h5>
           </div>
           <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
             <div class="card-body">
-              This tool allows you to set group properties using the form below, then sends an event to your project via the API key you enter. You can visit your Amplitude instance to review the event you sent for validation that the group property was set correctly. This tool can also be used <b>without</b> an API key if interested only in seeing how requests should be formatted. The raw requests will also be populated as valid fields are entered. Note that this tool should be used for educational and validation purposes only.
+              You can set group properties using the form below, then send an event to your project via the API key you enter. You can visit your Amplitude instance to review the event you sent for validation that the group property was set correctly. This tool can also be used <b>without</b> an API key if interested only in seeing how requests should be formatted. The raw requests will also be populated as valid fields are entered. Note that this tool should be used for educational and validation purposes only.
               <br><br>
               <ol>
                 <li>First, set a group in the event. This is referred to as an <a href="https://www.docs.developers.amplitude.com/guides/accounts-instrumentation-guide/#define-event-level-or-user-level-groups">event-level</a> group, since the group is being set in the event.</li>
