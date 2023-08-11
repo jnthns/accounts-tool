@@ -128,38 +128,6 @@
 										href="https://www.docs.developers.amplitude.com/guides/accounts-instrumentation-guide/?h=plan+accounts">event
 										level or the user level</a>.</li>
 							</ul>
-							<b>Methods of sending Groups</b>
-							<br>
-							SDKs
-							<ul>
-								<li><a href="https://www.docs.developers.amplitude.com/data/sdks/android-kotlin/#user-groups">Android
-										SDK</a></li>
-								<li><a href="https://www.docs.developers.amplitude.com/data/sdks/ios-swift/#user-groups">iOS
-										SDK</a></li>
-								<li><a href="https://www.docs.developers.amplitude.com/data/sdks/javascript/#user-groups">Javascript
-										SDK</a></li>
-							</ul>
-							API
-							<ul>
-								<li><a
-										href="https://www.docs.developers.amplitude.com/analytics/apis/http-v2-api/#upload-request-body-parameters">HTTP
-										API</a></li>
-							</ul>
-							Integrations
-							<ul>
-								<li><a href="https://www.docs.developers.amplitude.com/data/sources/amazon-s3/?h=s3">S3
-										Import</a></li>
-								<li><a
-										href="https://www.docs.developers.amplitude.com/data/sources/snowflake/?h=snowflake+import">Snowflake
-										Import</a></li>
-								<li><a href="https://www.docs.developers.amplitude.com/data/sources/bigquery/">BigQuery
-										Import</a></li>
-								<li><a href="https://www.rudderstack.com/docs/event-spec/standard-events/group/">Rudderstack</a>
-								</li>
-								<li><a
-										href="https://help.amplitude.com/hc/en-us/articles/5332668738331-Set-up-account-level-reporting#segment">Segment</a>
-								</li>
-							</ul>
 						</div>
 					</div>
 				</div>
@@ -183,8 +151,8 @@
 							</div>
 							<div class="card-body collapse" data-parent="#child1" id="collapseELG">
 								You can <a
-									href="https://www.docs.developers.amplitude.com/analytics/apis/http-v2-api/#upload-request-body-parameters">include
-									groups in your events</a>, then track a dict that contains the group type mapped to
+									href="https://www.docs.developers.amplitude.com/analytics/apis/http-v2-api/#upload-request-body-parameters">include a
+									groups object in your events</a> that contains the group type mapped to
 								the group value the user should belong to. When the events are ingested, send group properties via <a href="https://www.docs.developers.amplitude.com/analytics/apis/group-identify-api/?h=group+identify+api">Group Identify API</a>, which will apply to the group (and the user) once the event is ingested.
 								<br><br>
 								<h6>Event Payload</h6>
@@ -296,6 +264,38 @@
 							<li>This tool only covers setting a single group in an event. In practice, you can set
 								multiple groups and group properties for each group in a single event.</li>
 						</ul>
+						<b>Useful Links</b>
+							<br>
+							SDKs
+							<ul>
+								<li><a href="https://www.docs.developers.amplitude.com/data/sdks/android-kotlin/#user-groups">Android
+										SDK</a></li>
+								<li><a href="https://www.docs.developers.amplitude.com/data/sdks/ios-swift/#user-groups">iOS
+										SDK</a></li>
+								<li><a href="https://www.docs.developers.amplitude.com/data/sdks/javascript/#user-groups">Javascript
+										SDK</a></li>
+							</ul>
+							API
+							<ul>
+								<li><a
+										href="https://www.docs.developers.amplitude.com/analytics/apis/http-v2-api/#upload-request-body-parameters">HTTP
+										API</a></li>
+							</ul>
+							Integrations
+							<ul>
+								<li><a href="https://www.docs.developers.amplitude.com/data/sources/amazon-s3/?h=s3">S3
+										Import</a></li>
+								<li><a
+										href="https://www.docs.developers.amplitude.com/data/sources/snowflake/?h=snowflake+import">Snowflake
+										Import</a></li>
+								<li><a href="https://www.docs.developers.amplitude.com/data/sources/bigquery/">BigQuery
+										Import</a></li>
+								<li><a href="https://www.rudderstack.com/docs/event-spec/standard-events/group/">Rudderstack</a>
+								</li>
+								<li><a
+										href="https://help.amplitude.com/hc/en-us/articles/5332668738331-Set-up-account-level-reporting#segment">Segment</a>
+								</li>
+							</ul>
 					</div>
 				</div>
 			</div>
