@@ -1,13 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
 	const responseBlock = document.getElementById('responseBlock');
 	const apiKeyInput = document.getElementById('projectApiKey');
+	let API_KEY;
 
 	apiKeyInput.addEventListener('input', (event) => {
 		if (event.target.value.length === 32) {
-			const API_KEY = event.target.value
-
-			responseBlock.textContent = "API Key entered!"
-			console.log("API key successfully entered")
+			API_KEY = event.target.value
 
 		} else {
 			responseBlock.textContent = "Missing/Invalid API key"
@@ -77,13 +75,13 @@ document.addEventListener('DOMContentLoaded', () => {
 			};
 
 			eventCodeBlock.textContent = httpAPIEndpoint;
-			eventCodeBlock.textContent += "&events=[" + JSON.stringify(eventsDict) + "]"
+			eventCodeBlock.textContent += "?api_key=" + API_KEY + "&events=[" + JSON.stringify(eventsDict) + "]"
 
 			if (event && group && groupNames) {
 				sendEventButton.addEventListener("click", () => {
 
 					const requestBody = {
-						"api_key": window.API_KEY || '<api_key>',
+						"api_key": API_KEY || '<api_key>',
 						"events": eventsDict
 					}
 
@@ -104,7 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	// when the user hits Send Identify, the request is sent to Amplitude.
 	const groupPropsInput = () => {
 		const groupsInfo = {"group_type": groupType.value, "group_value": groupValue.value}
-		const API_KEY = window.API_KEY || "<api_key>"
 		const groupIdentifyEndpoint = "https://api2.amplitude.com/groupidentify?api_key=" + API_KEY
 
 		try {
