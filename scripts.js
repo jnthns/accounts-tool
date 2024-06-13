@@ -132,5 +132,5 @@ document.addEventListener('DOMContentLoaded', () => {
 	};
 
 	userDataTextarea.addEventListener("input", groupPropsInput) 
-
+	  
 })

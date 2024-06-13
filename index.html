@@ -69,7 +69,7 @@
 					<div class="card-header" id="headingOne">
 						<h5 class="mb-0">
 							<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
-								aria-controls="collapseOne">
+								aria-controls="collapseOne" header-id="1">
 								What is an Account (Group)?
 							</button>
 						</h5>
@@ -104,7 +104,7 @@
 					<div class="card-header" id="headingTwo">
 						<h5 class="mb-0">
 							<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
-								aria-expanded="false" aria-controls="collapseTwo">
+								aria-expanded="false" aria-controls="collapseTwo" id="2">
 								How are Groups and Group properties configured?
 							</button>
 						</h5>
@@ -145,16 +145,16 @@
 					</div>
 				</div>
 				<div class="card">
-					<div class="card-header" id="headingFour">
+					<div class="card-header" id="headingThree">
 						<h5 class="mb-0">
-							<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour"
-								aria-expanded="false" aria-controls="collapseFour">
+							<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree"
+								aria-expanded="false" aria-controls="collapseThree" id="3">
 								How do I set Groups with Amplitude and other sources? 
 							</button>
 						</h5>
 					</div>
 				</div>
-				<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+				<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
 					<div class="card-body" id="child1">
 						There are two ways to set groups in Amplitude - at the event level, like this tool demonstrates, or at the user level. The distinction between both types is that event-level groups are captured on an event-by-event basis, so the group must be sent with each event that should be attributed to a group. A user-level group is set on the user, and persists with all events tracked by the user afterwards, until the group is updated/removed from the user. 
 						<br><br>
@@ -162,7 +162,7 @@
 							<div class="card-header">
 								<a href="#" data-toggle="collapse" data-target="#collapseELG">Event Level Groups</a>
 							</div>
-							<div class="card-body collapse" data-parent="#child1" id="collapseELG">
+							<div class="card-body collapse" data-parent="#child1" id="collapseELG" id="Event Level Groups">
 								You can <a
 									href="https://www.docs.developers.amplitude.com/analytics/apis/http-v2-api/#upload-request-body-parameters">include a
 									groups object in your events</a> that contains the group type mapped to
@@ -176,7 +176,7 @@
 						</div>
 						<div class="card">
 							<div class="card-header">
-								<a href="#" data-toggle="collapse" data-target="#collapseULG">User Level Groups</a>
+								<a href="#" data-toggle="collapse" data-target="#collapseULG" id="User Level Groups">User Level Groups</a>
 							</div>
 							<div class="card-body collapse" data-parent="#child1" id="collapseULG">
 								If you don't know what group the user is associated with from the start, you can apply the group as a
@@ -244,15 +244,15 @@
 				</div>
 			</div>
 			<div class="card">
-				<div class="card-header" id="headingFive">
+				<div class="card-header" id="headingFour">
 					<h5 class="mb-0">
-						<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive"
-							aria-expanded="false" aria-controls="collapseFive">
+						<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour"
+							aria-expanded="false" aria-controls="collapseFour" id="4">
 							<b>How can I use this tool?</b>
 						</button>
 					</h5>
 				</div>
-				<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+				<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
 					<div class="card-body">
 						You can set group properties using the form below, then send an event to your project via the
 						API key you enter. You can visit your Amplitude instance to review the event you sent for
