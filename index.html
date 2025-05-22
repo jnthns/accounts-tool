@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+	<meta http-equiv="Content-Security-Policy" content="script-src 'self' *.amplitude.com *.googletagmanager.com code.jquery.com cdnjs.cloudflare.com stackpath.bootstrapcdn.com 'unsafe-inline';">
+	<script src="https://cdn.amplitude.com/script/d0f08400e511c1741a74666c43d1ace4.experiment.js"></script>
 	<!-- Google Tag Manager -->
 	<script>
 	(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -30,6 +32,28 @@
 			word-wrap: break-word;
 		}
 	</style>
+	<script>
+		(function(d, h){
+		  var apiKey = "d0f08400e511c1741a74666c43d1ace4"; 
+		  var timeout = 1000; 
+
+		  var id = "amp-exp-css";
+		  try {
+			if (!d.getElementById(id)) {
+			  var st = d.createElement("style");
+			  st.id = id;
+			  st.innerText = "* { visibility: hidden !important; background-image: none !important; }";
+			  h.appendChild(st);
+			  window.setTimeout(function () {st.remove()}, timeout);
+			  var sc = d.createElement("script");
+			  sc.src = "https://cdn.amplitude.com/script/"+apiKey+".experiment.js";
+			  sc.async = true;
+			  sc.onerror = function () {st.remove()};
+			  h.insertBefore(sc, d.currentScript || h.lastChild);
+			}
+		  } catch {console.error(e)}
+		})(document, document.head);
+	  </script>
 </head>
 
 <body>
