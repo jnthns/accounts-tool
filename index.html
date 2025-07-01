@@ -4,16 +4,25 @@
 <head>
 	<meta http-equiv="Content-Security-Policy" content="
 	default-src 'self';
-	script-src 'unsafe-inline'
+	script-src 'self' 'sha256-n0ySM8gBKDpMHFAklNOnNZGkZmGPs+zjxJAHhzAbwHk=' 'sha256-5U+V7das0Ztih1gyRb8xCySCE+0tQp13fjPpy+jCAZM='
 				https://www.googletagmanager.com
 				https://cdn.amplitude.com
-				https://*.amplitude.com;
-	connect-src https://www.googletagmanager.com
+				https://*.amplitude.com
+				https://code.jquery.com
+				https://cdnjs.cloudflare.com
+				https://stackpath.bootstrapcdn.com;
+	connect-src 'self'
+				https://www.googletagmanager.com
 				https://api.amplitude.com;
-	img-src https://www.googletagmanager.com
-			https://www.google-analytics.com;
-	style-src https://fonts.googleapis.com;
-	font-src  https://fonts.gstatic.com data:;
+	img-src 'self' data:
+			https://www.googletagmanager.com
+			https://www.google-analytics.com
+			https://seeklogo.com;
+	style-src 'self' 'unsafe-inline'
+				https://fonts.googleapis.com
+				https://stackpath.bootstrapcdn.com;
+	font-src   https://fonts.gstatic.com data:;
+	frame-src  https://www.googletagmanager.com;
 	">
 	<!-- Google Tag Manager -->
 	<script>
