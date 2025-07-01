@@ -2,8 +2,23 @@
 <html lang="en">
 
 <head>
-	<meta http-equiv="Content-Security-Policy" content="script-src 'self' *.amplitude.com *.googletagmanager.com code.jquery.com cdnjs.cloudflare.com stackpath.bootstrapcdn.com 'unsafe-inline';">
-	<script src="https://cdn.amplitude.com/script/d0f08400e511c1741a74666c43d1ace4.experiment.js"></script>
+	<!-- CSP (update {{NONCE}} server-side on every request) -->
+	<meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'nonce-{{NONCE}}'
+               https://www.googletagmanager.com
+               https://cdn.amplitude.com
+               https://*.amplitude.com;
+    connect-src https://www.googletagmanager.com
+                https://api.amplitude.com;
+    img-src https://www.googletagmanager.com
+            https://www.google-analytics.com;
+    style-src https://tagmanager.google.com
+              https://fonts.googleapis.com;
+    font-src  https://fonts.gstatic.com data:;
+  ">
+  <!-- Google Tag Manager snippet with matching nonce -->
+  <script nonce="{{NONCE}}">
 	<!-- Google Tag Manager -->
 	<script>
 	(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
